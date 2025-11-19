@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
-import com.example.demo.model.entities.Cliente;
-import com.example.demo.model.service.ClienteService;
+import com.grupo13.lavarapido.model.entities.Cliente;
+import com.grupo13.lavarapido.model.service.ClienteService;
 
 @RestController
 @RequestMapping("/clientes")
@@ -38,11 +38,16 @@ public class ClienteController {
     }
 
     @GetMapping("/consulta")
-    public ResponseEntity<List<Cliente>> consultaClientes(@RequestParam("nome") String nome) {
+    public ResponseEntity<List<Cliente>> consultaClientesNome(@RequestParam("primeiroNome") String primeiroNome) {
         List<Cliente> clientesEncontrados;
-        
-        clientesEncontrados = clienteService.consultarClientes(nome);
+        clientesEncontrados = clienteService.consultarClientesPrimeiroNome(primeiroNome);
+        return ResponseEntity.ok(clientesEncontrados);
+    }
 
+    @GetMapping("/consultaSobrenome")
+    public ResponseEntity<List<Cliente>> consultaClientesSobrenome(@RequestParam("sobrenome") String sobrenome) {
+        List<Cliente> clientesEncontrados;
+        clientesEncontrados = clienteService.consultarClientesSobrenome(sobrenome);
         return ResponseEntity.ok(clientesEncontrados);
     }
 

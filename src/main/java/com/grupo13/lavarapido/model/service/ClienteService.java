@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.demo.model.entities.Cliente;
-import com.example.demo.model.repository.ClienteRepository;
+import com.grupo13.lavarapido.model.entities.Cliente;
+import com.grupo13.lavarapido.model.repository.ClienteRepository;
 
 @Service
 public class ClienteService {
@@ -22,35 +22,35 @@ public class ClienteService {
             throw new Exception("Sobrenome do cliente é obrigatório.");
         }
 
-        clienteRepositiry.save(cliente);
+        clienteRepository.save(cliente);
         return true;
     }
 
     public List<Cliente> getClientes() {
-        Iterable<Cliente> clientes = clienteRepositiry.findAll();
+        Iterable<Cliente> clientes = clienteRepository.findAll();
         return (List<Cliente>) clientes;
     }
 
     public List<Cliente> consultarClientesPrimeiroNome (String primeiroNome) {
-        Iterable<Cliente> clientesEncontrados = ClienteRepository.findByPrimeiroNome(primeiroNome);
+        Iterable<Cliente> clientesEncontrados = clienteRepository.findByPrimeiroNome(primeiroNome);
         return (List<Cliente>) clientesEncontrados;
     }
 
     public List<Cliente> consultarClientesSobrenome (String sobrenome) {
-        Iterable<Cliente> clientesEncontrados = ClienteRepository.findBySobrenome(sobrenome);
+        Iterable<Cliente> clientesEncontrados = clienteRepository.findBySobrenome(sobrenome);
         return (List<Cliente>) clientesEncontrados;
     }
 
     public boolean deletarCliente(Long id) throws Exception {
-        if (id = null) {
+        if (id == null) {
             throw new Exception("ID inválido");
         }
         
         try {
-            clienteRepositiry.deleteById(id);
+            clienteRepository.deleteById(id);
             return true;
         } catch (Exception e){
-            throw new Exception("Erro ao deletar cliente" + e.getMessege());
+            throw new Exception("Erro ao deletar cliente" + e.getMessage());
         }
     }
 
@@ -65,10 +65,10 @@ public class ClienteService {
         }
 
         try {
-            clienteRepositiry.save(cliente);
+            clienteRepository.save(cliente);
             return true;
         }catch (Exception e) {
-            throw new Exception("Erro em atualizar cliente: " + e.getMessege());
+            throw new Exception("Erro em atualizar cliente: " + e.getMessage());
         }
     }
 }

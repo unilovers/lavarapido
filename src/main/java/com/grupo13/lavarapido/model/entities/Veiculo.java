@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name="Veiculos")
 public class Veiculo {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO);
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String tipo;        // Tipo de veiculo (Carro, moto, etc)
