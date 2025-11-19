@@ -28,6 +28,14 @@ public class Cliente {
         this.dataRegistro = Instant.now();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getPrimeiroNome() {
         return primeiroNome;
     }
@@ -45,5 +53,15 @@ public class Cliente {
     }
     public void setDataRegistro(Instant dataRegistro) {
         this.dataRegistro = dataRegistro;
+    }
+
+    @Override
+    public String toString() {
+        return "Clinte{" +
+                "primeiroNome='" + primeiroNome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", dataRegistro='" + dataRegistro + '\'' +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

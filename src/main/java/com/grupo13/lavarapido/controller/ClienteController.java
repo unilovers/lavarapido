@@ -61,13 +61,19 @@ public class ClienteController {
         }
     }
 
-    @PutMapping("/atualizar")
-    public ResponseEntity<?> atualizarCliente(@RequestBody Cliente cliente) {
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<?> atualizarCliente(@PathVariable("id") Long id, @RequestBody Cliente cliente) {
         try {
-            clienteService.atualizarCliente(cliente);
+            clienteService.atualizarCliente(id, cliente);
             return ResponseEntity.ok(true);
         }catch (Exception e) {
-            return ResponseEntity.status(404).body(e.getMessage());
+            if (e.getMessage().contains("não encontrado")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            } 
+            if (e.getMessage().contains("obrigatório")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro interno: " + e.getMessage());
         }
     }
     
