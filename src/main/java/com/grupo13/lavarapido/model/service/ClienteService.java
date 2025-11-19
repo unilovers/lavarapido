@@ -1,4 +1,4 @@
-package com.example.demo.model.service;
+package com.grupo13.lavarapido.model.service;
 
 import java.util.List;
 
