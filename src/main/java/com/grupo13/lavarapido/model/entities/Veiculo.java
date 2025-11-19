@@ -14,6 +14,10 @@ public class Veiculo {
     private String fabricante;  // Fabricante do veiculo (Ex: Chevrolet)
     private String modelo;      // Modelo do veiculo (Ex: Onix)
 
+    @ManyToOne
+    @JoinColumn(name="cliente_id", nullable=false)
+    private Cliente cliente;    // Dono do veiculo
+
     public Veiculo(){
     }
 
@@ -54,6 +58,14 @@ public class Veiculo {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+        public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     @Override
