@@ -54,24 +54,6 @@ public class ClienteService {
             throw new Exception("Erro ao deletar cliente" + e.getMessage());
         }
     }
-/* 
-    public boolean atualizarCliente(Cliente cliente) throws Exception {
-        
-        if (cliente.getPrimeiroNome() == null || cliente.getPrimeiroNome().isEmpty()) {
-            throw new Exception("Primeiro nome do cliente é obrigatório.");
-        }
-
-        if (cliente.getSobrenome() == null || cliente.getSobrenome().isEmpty()) {
-            throw new Exception("Sobrenome do cliente é obrigatório.");
-        }
-
-        try {
-            clienteRepository.save(cliente);
-            return true;
-        }catch (Exception e) {
-            throw new Exception("Erro em atualizar cliente: " + e.getMessage());
-        }
-    }*/
 
     public Cliente atualizarCliente(Long id, Cliente clienteDetails) throws Exception {
         
