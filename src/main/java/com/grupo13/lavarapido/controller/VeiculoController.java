@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
+import com.grupo13.lavarapido.model.DTO.VeiculoRequestDTO;
 import com.grupo13.lavarapido.model.entities.Veiculo;
 import com.grupo13.lavarapido.model.service.VeiculoService;
 
@@ -23,7 +24,7 @@ public class VeiculoController {
     }
     
  @PostMapping("/novo")
-    public ResponseEntity<?> novoVeiculo(@RequestBody Veiculo veiculo) {
+    public ResponseEntity<?> novoVeiculo(@RequestBody VeiculoRequestDTO veiculo) {
         try {
             veiculoService.novoVeiculo(veiculo);
             return ResponseEntity.ok("Veiculo criado com sucesso.");
@@ -80,7 +81,7 @@ public class VeiculoController {
     }
     
         @PutMapping("/atualizar/{id}")
-    public ResponseEntity<?> atualizarCliente(@PathVariable("id") Long id, @RequestBody Veiculo veiculo) {
+    public ResponseEntity<?> atualizarCliente(@PathVariable("id") Long id, @RequestBody VeiculoRequestDTO veiculo) {
         try {
             veiculoService.atualizarVeiculo(id, veiculo);
             return ResponseEntity.ok(true);

@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.grupo13.lavarapido.model.DTO.VeiculoRequestDTO;
 import com.grupo13.lavarapido.model.entities.Cliente;
 import com.grupo13.lavarapido.model.entities.Veiculo;
 import com.grupo13.lavarapido.model.repository.ClienteRepository;
@@ -18,7 +20,7 @@ public class VeiculoService {
     private ClienteRepository clienteRepository; 
 
  
-    public boolean novoVeiculo(Veiculo veiculo) throws Exception {
+    public boolean novoVeiculo(VeiculoRequestDTO veiculo) throws Exception {
         
         if (veiculo.getTipo() == null || veiculo.getTipo().isEmpty()) {
             throw new Exception("O tipo do veículo é obrigatório.");
@@ -33,27 +35,26 @@ public class VeiculoService {
             throw new Exception("O modelo do veículo é obrigatório.");
         }
         
-      
-        Cliente cliente = veiculo.getCliente();
-        if (cliente == null || cliente.getId() == null) {
+        if (veiculo.getClienteId() == null) {
             throw new Exception("O cliente (dono) do veículo é obrigatório.");
         }
 
        
-        Optional<Cliente> clienteExistente = clienteRepository.findById(cliente.getId());
-        if (clienteExistente.isEmpty()) {
-            throw new Exception("Cliente com ID " + cliente.getId() + " não encontrado. O veículo não pode ser salvo.");
+        Optional<Cliente> cliente = clienteRepository.findById(veiculo.getClienteId());
+        if (cliente.isEmpty()) {
+            throw new Exception("Cliente com ID " + veiculo.getClienteId() + " não encontrado. O veículo não pode ser salvo.");
         }
         
-        
-        veiculo.setCliente(clienteExistente.get());
+        Veiculo novoVeiculo = new Veiculo();
+        novoVeiculo.setTipo(veiculo.getTipo());
+        novoVeiculo.setPlaca(veiculo.getPlaca());
+        novoVeiculo.setFabricante(veiculo.getFabricante());
+        novoVeiculo.setModelo(veiculo.getModelo());
+        novoVeiculo.setCliente(cliente.get());
 
-        veiculoRepository.save(veiculo);
+        veiculoRepository.save(novoVeiculo);
         return true;
     }
-
-
-
    
     public List<Veiculo> getVeiculos() {
         return (List<Veiculo>) veiculoRepository.findAll();
@@ -89,7 +90,7 @@ public class VeiculoService {
         return (List<Veiculo>) veiculosEncontrados;
     }
 
-    public Veiculo atualizarVeiculo(Long id, Veiculo veiculoDetails) throws Exception {
+    public Veiculo atualizarVeiculo(Long id, VeiculoRequestDTO veiculoDetails) throws Exception {
         Optional<Veiculo> veiculoExistente = veiculoRepository.findById(id);
 
         if (veiculoExistente.isEmpty()) {
@@ -110,15 +111,13 @@ public class VeiculoService {
             throw new Exception("O modelo do veículo é obrigatório.");
         }
         
-       
-        Cliente novoCliente = veiculoDetails.getCliente();
-        if (novoCliente == null || novoCliente.getId() == null) {
+        if (veiculoDetails.getClienteId() == null) {
              throw new Exception("O cliente (dono) do veículo é obrigatório.");
         }
         
-        Optional<Cliente> clienteExistente = clienteRepository.findById(novoCliente.getId());
+        Optional<Cliente> clienteExistente = clienteRepository.findById(veiculoDetails.getClienteId());
         if (clienteExistente.isEmpty()) {
-            throw new Exception("Novo Cliente com ID " + novoCliente.getId() + " não encontrado. A atualização falhou.");
+            throw new Exception("Novo Cliente com ID " + veiculoDetails.getClienteId() + " não encontrado. A atualização falhou.");
         }
 
         Veiculo veiculoParaAtualizar = veiculoExistente.get();
@@ -126,15 +125,13 @@ public class VeiculoService {
         veiculoParaAtualizar.setPlaca(veiculoDetails.getPlaca());
         veiculoParaAtualizar.setFabricante(veiculoDetails.getFabricante());
         veiculoParaAtualizar.setModelo(veiculoDetails.getModelo());
-        
+        veiculoParaAtualizar.setCliente(clienteExistente.get());
         
         veiculoParaAtualizar.setCliente(clienteExistente.get());
 
         return veiculoRepository.save(veiculoParaAtualizar);
     }
     
-    
-
     public boolean deletarVeiculo(Long id) throws Exception {
         if (id == null) {
             throw new Exception("ID inválido");
