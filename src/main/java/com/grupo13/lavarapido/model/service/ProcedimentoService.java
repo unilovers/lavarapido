@@ -9,16 +9,12 @@ import com.grupo13.lavarapido.model.repository.ProcedimentoRepository;
 @Service
 public class ProcedimentoService {
 
-    private final ProcedimentoRepository procedimentoRepository;
-
     @Autowired
-    public ProcedimentoService(ProcedimentoRepository procedimentoRepository) {
-        this.procedimentoRepository = procedimentoRepository;
-    }
+    private ProcedimentoRepository procedimentoRepository;
 
-    public void novoProcedimento(Procedimento procedimento) throws Exception {
+    public boolean novoProcedimento(Procedimento procedimento) throws Exception {
 
-        if (procedimento.getNome() == null || procedimento.getNome().isBlank()) {
+        if (procedimento.getNome() == null || procedimento.getNome().isEmpty()) {
             throw new Exception("o nome do procedimento é obrigatório!");
         }
 
@@ -26,7 +22,12 @@ public class ProcedimentoService {
             throw new Exception("o valor do procedimento deve ser informado e não pode ser negativo.");
         }
 
+        if (procedimento.getTipoVeiculo() == null || procedimento.getTipoVeiculo().isEmpty()) {
+            throw new Exception("o tipo de veículo é obrigatório!");
+        }
+
         procedimentoRepository.save(procedimento);
+        return true;
     }
 
     public List<Procedimento> getProcedimentos() {
@@ -45,10 +46,17 @@ public class ProcedimentoService {
         return procedimentoRepository.findByTipoVeiculoIgnoreCase(tipoVeiculo);
     }
 
-    public void deletarProcedimento(Long id) throws Exception {
-        Procedimento proc = procedimentoRepository.findById(id)
-                .orElseThrow(() -> new Exception("procedimento não encontrado."));
-        procedimentoRepository.delete(proc);
+    public boolean deletarProcedimento(Long id) throws Exception {
+        if (id == null) {
+            throw new Exception("ID inválido.");
+        }
+        
+        try {
+            procedimentoRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            throw new Exception("Erro ao deletar procedimento: " + e.getMessage());
+        }
     }
 
     public Procedimento buscarPorId(Long id) throws Exception {

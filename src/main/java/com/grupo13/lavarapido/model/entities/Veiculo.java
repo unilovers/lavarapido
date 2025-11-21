@@ -71,11 +71,12 @@ public class Veiculo {
     @Override
     public String toString() {
         return "Veiculo{" +
+                "id='" + id + '\'' +
                 "tipo='" + tipo + '\'' +
                 ", placa='" + placa + '\'' +
                 ", fabricante='" + fabricante + '\'' +
                 ", modelo='" + modelo + '\'' +
-                ", cliente='" + cliente + '\'' +
+                ", cliente='" + cliente.getNomeInteiro() + '\'' +
                 '}';
     }
 

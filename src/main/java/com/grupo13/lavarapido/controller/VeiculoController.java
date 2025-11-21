@@ -13,7 +13,7 @@ import com.grupo13.lavarapido.model.service.VeiculoService;
 
 
 @RestController
-@RequestMapping("/Veiculos")
+@RequestMapping("/veiculos")
 public class VeiculoController {
     
     private VeiculoService veiculoService;
