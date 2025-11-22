@@ -28,6 +28,14 @@ public class Veiculo {
         this.modelo = modelo;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getTipo() {
         return tipo;
     }
